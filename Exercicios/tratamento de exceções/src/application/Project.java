@@ -34,17 +34,12 @@ public class Project {
 			System.out.println("Date out: ");
 			Date checkOut = sdf.parse(sc.next());
 			
-			Date now = new Date();
-			
-			if(checkIn.before(now) || checkOut.before(now)) {
-				System.out.println("difere da data atual constando data antigas");
-			}else if(!checkOut.after(checkIn)){
-				System.out.println("erro data de checout vem antes da de check in");
+			String error = reservation.updateDates(checkIn, checkOut);
+			if(error != null) {
+				System.out.println("error in reservation" + error);
 			}else {
-				reservation.updateDates(checkIn, checkOut);
-				System.out.println("Reservation: " + reservation.toString());	
+				System.out.println("Reservation: " + reservation);
 			}
-			
 		}
 		
 	}
