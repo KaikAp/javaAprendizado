@@ -1,8 +1,10 @@
 package entities;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import model.exceptions.DomainException;
 
 public class Reservation {
 private Integer roomNumber;
@@ -11,7 +13,10 @@ private Date checkOut;
 
 private static SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 
-public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+public Reservation(Integer roomNumber, Date checkIn, Date checkOut){
+	if(!checkOut.after(checkIn)){
+		throw new DomainException("erro data de checout vem antes da de check in");
+	}
 	this.roomNumber = roomNumber;
 	this.checkIn = checkIn;
 	this.checkOut = checkOut;
@@ -39,19 +44,18 @@ public long duration() {
 	
 }
 
-public String updateDates(Date checkIn, Date checkOut) {
+public void updateDates(Date checkIn, Date checkOut){
 	Date now = new Date();
 	
 	if(checkIn.before(now) || checkOut.before(now)) {
-		return "difere da data atual constando data antigas";
+		throw new DomainException("difere da data atual constando data antigas");
 	}if(!checkOut.after(checkIn)){
-		return "erro data de checout vem antes da de check in";
+		throw new DomainException("erro data de checout vem antes da de check in");
 	}
 	
 	
 	this.checkIn = getCheckIn();
 	this.checkOut = getCheckOut();
-	return null;
 	
 }
 
