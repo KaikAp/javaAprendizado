@@ -1,28 +1,25 @@
 package main;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Program {
 
 	public static void main(String[] args) {
+	
+		String[] Lines = new String[] { "good morning", "good afternoon"};
+		String path = "B:\\out.txt";
 		
-		String path = "B:\\WorkSpace\\teste.txt";
-		
-		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-			
-			String line = br.readLine();
-			
-			while(line != null) {
-			System.out.println(line);
-			line = br.readLine();
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))){ //o true verifica se ele já existe sem o parametro ele recria ou cria o arquivo
+			for(String line:Lines) {
+				bw.write(line);
+				bw.newLine();
+				
 			}
-			
-		}catch(IOException e) {
-			System.out.println("Error: " + e.getMessage());
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 
-}
